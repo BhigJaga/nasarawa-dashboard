@@ -12,6 +12,13 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+// Serve frontend static files (like index.html, .css, .js)
+app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Default route for root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
 
 // Helper to read data
 const getData = (filename) => {
