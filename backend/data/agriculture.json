@@ -1,0 +1,16 @@
+[
+  {
+    "state": "Nasarawa",
+    "lga": "Doma",
+    "year": 2025,
+    "crop": "Yam",
+    "value": 15000
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Lafia",
+    "year": 2025,
+    "crop": "Maize",
+    "value": 18000
+  }
+]

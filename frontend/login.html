@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">Admin Login</h1>
+      <button onclick="window.location.href='index.html'" class="home-btn">🏠 Home</button>
+    </nav>
+  </header>
+
+  <main class="form-container">
+    <h2>Login to Dashboard</h2>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Login</button>
+    </form>
+    <p id="loginStatus"></p>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      // Hardcoded login
+      if (user === "admin" && pass === "nasarawa123") {
+        localStorage.setItem('isAdmin', 'true');
+        window.location.href = 'admin.html';
+      } else {
+        document.getElementById('loginStatus').textContent = "❌ Wrong username or password.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agriculture Data - Nasarawa</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">Nasarawa Agriculture</h1>
+    <nav>
+      <a href="index.html">🏠 Home</a>
+      <a href="cpi.html">📊 CPI</a>
+      <a href="population.html">👥 Population</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Agriculture Production by LGA and Crop</h2>
+
+    <div class="filter-controls">
+      <label>
+        LGA
+        <select id="filterLGA">
+          <option value="">All</option>
+          <option value="Lafia">Lafia</option>
+          <option value="Keffi">Keffi</option>
+          <option value="Karu">Karu</option>
+          <option value="Akwanga">Akwanga</option>
+          <option value="Doma">Doma</option>
+          <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+          <option value="Toto">Toto</option>
+          <option value="Obi">Obi</option>
+          <option value="Wamba">Wamba</option>
+          <option value="Nasarawa">Nasarawa</option>
+          <option value="Awe">Awe</option>
+        </select>
+      </label>
+
+      <label>
+        Year
+        <input type="number" id="filterYear" placeholder="e.g. 2024">
+      </label>
+
+      <label>
+        Crop Type
+        <input type="text" id="filterCrop" placeholder="e.g. Maize">
+      </label>
+
+      <button onclick="filterAgriculture()">Apply Filters</button>
+    </div>
+
+    <canvas id="agricultureChart"></canvas>
+    <p id="noData" style="display:none;">No data found for selected filters.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Nasarawa State Bureau of Statistic (NSBS)</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/agriculture.js"></script>
+</body>
+</html>

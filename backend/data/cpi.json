@@ -1,0 +1,50 @@
+[
+  {
+    "state": "Nasarawa",
+    "lga": "Lafia",
+    "month": "June",
+    "year": 2025,
+    "value": 205.1,
+    "description": "Inflation trend rising"
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Keffi",
+    "month": "June",
+    "year": 2025,
+    "value": 198.5,
+    "description": "Slight drop"
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Lafia",
+    "month": "June",
+    "year": 2025,
+    "value": 205.1,
+    "description": "Inflation trend rising"
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Keffi",
+    "month": "June",
+    "year": 2025,
+    "value": 198.5,
+    "description": "Slight drop"
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Lafia",
+    "month": "June",
+    "year": 2025,
+    "value": 205.1,
+    "description": "Inflation trend rising"
+  },
+  {
+    "state": "Nasarawa",
+    "lga": "Keffi",
+    "month": "June",
+    "year": 2025,
+    "value": 198.5,
+    "description": "Slight drop"
+  }
+]

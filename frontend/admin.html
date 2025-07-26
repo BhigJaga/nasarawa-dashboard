@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('isAdmin') !== 'true') {
+      alert("Access denied. Please login.");
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <header class="navbar">
+<header class="navbar">
+  <h1 class="logo">Admin Dashboard</h1>
+  <nav id="nav">
+    <button onclick="location.href='cpi.html'">📊 CPI</button>
+    <button onclick="location.href='population.html'">👥 Population</button>
+    <button onclick="location.href='agriculture.html'">🌾 Agriculture</button>
+    <button onclick="logout()" id="logout">🚪 Logout</button>
+  </nav>
+</header>
+  </header>
+
+
+   <main class="form-container">
+
+  <div class="toggle-buttons">
+    <button onclick="toggleForm('cpiSection')">CPI Form</button>
+    <button onclick="toggleForm('populationSection')">Population Form</button>
+    <button onclick="toggleForm('agricultureSection')">Agriculture Form</button>
+  </div>
+
+  <!-- CPI Form Section -->
+  <section id="cpiSection" class="form-section">
+    <h2>Submit CPI Data</h2>
+    <form id="cpiForm">
+      <!-- Same CPI form fields as before -->
+      <label>State</label>
+      <input type="text" name="state" value="Nasarawa" readonly />
+      <label>LGA</label>
+      <select name="lga" required>
+        <option value="">Select LGA</option>
+        <option value="Lafia">Lafia</option>
+        <option value="Keffi">Keffi</option>
+        <option value="Karu">Karu</option>
+        <option value="Akwanga">Akwanga</option>
+        <option value="Doma">Doma</option>
+        <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+        <option value="Toto">Toto</option>
+        <option value="Obi">Obi</option>
+        <option value="Wamba">Wamba</option>
+        <option value="Nasarawa">Nasarawa</option>
+        <option value="Awe">Awe</option>
+      </select>
+      <label>Month</label>
+      <input type="text" name="month" required />
+      <label>Year</label>
+      <input type="number" name="year" required />
+      <label>CPI Value</label>
+      <input type="number" name="value" step="0.01" required />
+      <label>Description</label>
+      <input type="text" name="description" />
+      <button type="submit">Submit CPI</button>
+    </form>
+  </section>
+
+  <!-- Population Form Section -->
+  <section id="populationSection" class="form-section" style="display:none;">
+    <h2>Submit Population Data</h2>
+    <form id="populationForm">
+      <!-- Same Population form fields -->
+      <label>State</label>
+      <input type="text" name="state" value="Nasarawa" readonly />
+      <label>LGA</label>
+      <select name="lga" required>
+        <option value="">Select LGA</option>
+        <!-- LGA options repeated -->
+        <option value="Lafia">Lafia</option>
+        <option value="Keffi">Keffi</option>
+        <option value="Karu">Karu</option>
+        <option value="Akwanga">Akwanga</option>
+        <option value="Doma">Doma</option>
+        <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+        <option value="Toto">Toto</option>
+        <option value="Obi">Obi</option>
+        <option value="Wamba">Wamba</option>
+        <option value="Nasarawa">Nasarawa</option>
+        <option value="Awe">Awe</option>
+      </select>
+      <label>Year</label>
+      <input type="number" name="year" required />
+      <label>Age Group</label>
+      <input type="text" name="ageGroup" required />
+      <label>Gender</label>
+      <select name="gender" required>
+        <option value="">Select</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <label>Population Count</label>
+      <input type="number" name="population" required />
+      <button type="submit">Submit Population</button>
+    </form>
+  </section>
+
+  <!-- Agriculture Form Section -->
+  <section id="agricultureSection" class="form-section" style="display:none;">
+    <h2>Submit Agriculture Data</h2>
+    <form id="agricultureForm">
+      <!-- Same Agriculture form fields -->
+      <label>State</label>
+      <input type="text" name="state" value="Nasarawa" readonly />
+      <label>LGA</label>
+      <select name="lga" required>
+        <option value="">Select LGA</option>
+        <!-- LGA options repeated -->
+        <option value="Lafia">Lafia</option>
+        <option value="Keffi">Keffi</option>
+        <option value="Karu">Karu</option>
+        <option value="Akwanga">Akwanga</option>
+        <option value="Doma">Doma</option>
+        <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+        <option value="Toto">Toto</option>
+        <option value="Obi">Obi</option>
+        <option value="Wamba">Wamba</option>
+        <option value="Nasarawa">Nasarawa</option>
+        <option value="Awe">Awe</option>
+      </select>
+      <label>Year</label>
+      <input type="number" name="year" required />
+      <label>Crop Type</label>
+      <input type="text" name="crop" required />
+      <label>Production (tonnes)</label>
+      <input type="number" name="value" step="0.01" required />
+      <button type="submit">Submit Agriculture</button>
+    </form>
+  </section>
+<section id="excelUploadSection" class="form-section">
+  <h2>📂 Upload Excel File</h2>
+  <form id="excelForm" enctype="multipart/form-data">
+    <input type="file" name="excelFile" accept=".xlsx" required />
+    <button type="submit">Upload & Import</button>
+  </form>
+  <p id="uploadStatus"></p>
+</section>
+
+</main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

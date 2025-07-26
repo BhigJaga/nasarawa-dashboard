@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Population Data</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="navbar">
+    <h1 class="logo">👥 Population Dashboard</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cpi.html">CPI</a>
+      <a href="agriculture.html">Agriculture</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Filter Population Data</h2>
+    <div class="filter-controls">
+      <label>LGA:
+        <select id="lgaFilter">
+          <option value="">All</option>
+          <option value="Lafia">Lafia</option>
+          <option value="Keffi">Keffi</option>
+          <option value="Karu">Karu</option>
+          <option value="Akwanga">Akwanga</option>
+          <option value="Doma">Doma</option>
+          <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+          <option value="Toto">Toto</option>
+          <option value="Obi">Obi</option>
+          <option value="Wamba">Wamba</option>
+          <option value="Nasarawa">Nasarawa</option>
+          <option value="Awe">Awe</option>
+        </select>
+      </label>
+      <label>Gender:
+        <select id="genderFilter">
+          <option value="">All</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </label>
+      <label>Age Group:
+        <input type="text" id="ageFilter" placeholder="e.g. 15-24" />
+      </label>
+      <button onclick="applyPopulationFilters()">Apply Filters</button>
+    </div>
+
+    <canvas id="populationChart" width="400" height="200"></canvas>
+    <p id="noData" style="display:none; color:red;">No population data available.</p>
+  </main>
+
+  <script src="js/population.js"></script>
+</body>
+</html>

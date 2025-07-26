@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CPI Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <h1>CPI Data – Nasarawa State</h1>
+    <a href="index.html" style="color:white;">Back to Home</a>
+  </header>
+
+  <main class="form-container">
+    <h2>CPI Trends by LGA</h2>
+
+    <div class="filters">
+      <label for="lgaFilter">LGA:</label>
+      <select id="lgaFilter">
+        <option value="">All</option>
+        <option value="Lafia">Lafia</option>
+        <option value="Keffi">Keffi</option>
+        <option value="Karu">Karu</option>
+        <option value="Akwanga">Akwanga</option>
+        <option value="Doma">Doma</option>
+        <option value="Nassarawa Eggon">Nassarawa Eggon</option>
+        <option value="Toto">Toto</option>
+        <option value="Obi">Obi</option>
+        <option value="Wamba">Wamba</option>
+        <option value="Nasarawa">Nasarawa</option>
+        <option value="Awe">Awe</option>
+      </select>
+
+      <label for="yearFilter">Year:</label>
+      <select id="yearFilter">
+        <option value="">All</option>
+      </select>
+    </div>
+
+    <canvas id="cpiChart" width="400" height="200"></canvas>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>
