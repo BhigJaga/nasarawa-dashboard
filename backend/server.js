@@ -9,7 +9,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ✅ Enable CORS for all origins
-app.use(cors());
+
+app.use(cors({
+  origin: 'https://nasarawa-dashboard.onrender.com', // or specify origin like 'http://127.0.0.1:5500'
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // 👈 allow DELETE
+}));
+
 app.use(express.json());
 
 // ✅ Serve static frontend files (optional)
@@ -115,8 +120,24 @@ app.post('/api/agriculture', (req, res) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   res.status(201).json({ message: '✅ Agriculture data added' });
 });
+app.delete('/api/clear-data', (req, res) => {
+  const filesToClear = ['cpi.json', 'population.json', 'agriculture.json'];
+
+  try {
+    filesToClear.forEach(filename => {
+      const filePath = path.join(__dirname, 'data', filename);
+      fs.writeFileSync(filePath, '[]'); // Overwrite with empty array
+    });
+
+    res.json({ message: '✅ All data cleared!' });
+  } catch (err) {
+    console.error('Error clearing data:', err);
+    res.status(500).json({ error: 'Failed to clear data' });
+  }
+});
 
 // ✅ Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
