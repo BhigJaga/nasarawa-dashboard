@@ -8,29 +8,14 @@ const xlsx = require('xlsx');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Ensure required directories exist
-['uploads', 'data'].forEach(dir => {
-  const fullPath = path.join(__dirname, dir);
-  if (!fs.existsSync(fullPath)) fs.mkdirSync(fullPath);
-});
-
-// ✅ CORS Configuration - Allow frontend origins
-app.use(cors({
-  origin: ['http://127.0.0.1:5500', 'http://localhost:5500', 'https://nasarawa-dashboard.onrender.com'],
-  methods: ['GET', 'POST'],
-  credentials: false
-}));
-
+// ✅ Enable CORS for all origins
+app.use(cors());
 app.use(express.json());
 
-// ✅ Serve frontend static files
+// ✅ Serve static frontend files (optional)
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
-
-// ✅ Helper to read JSON data from files
+// ✅ Utility to read data
 const getData = (filename) => {
   const filePath = path.join(__dirname, 'data', filename);
   return fs.existsSync(filePath)
@@ -38,17 +23,22 @@ const getData = (filename) => {
     : [];
 };
 
-// ✅ Multer setup for file uploads
-const upload = multer({
-  dest: path.join(__dirname, 'uploads/')
+// ✅ File upload setup
+const upload = multer({ dest: 'uploads/' });
+
+// ✅ ROUTES
+
+// Default route
+app.get('/', (req, res) => {
+  res.send('🚀 API is running');
 });
 
-// ✅ GET Endpoints
+// GET Endpoints
 app.get('/api/cpi', (req, res) => res.json(getData('cpi.json')));
 app.get('/api/population', (req, res) => res.json(getData('population.json')));
 app.get('/api/agriculture', (req, res) => res.json(getData('agriculture.json')));
 
-// ✅ Excel File Upload Endpoint
+// Excel Upload
 app.post('/api/upload', upload.single('excelFile'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
@@ -72,7 +62,9 @@ app.post('/api/upload', upload.single('excelFile'), (req, res) => {
     });
 
     if (!foundSheet) {
-      return res.status(400).json({ error: 'Excel file must include a sheet named CPI, Population, or Agriculture' });
+      return res.status(400).json({
+        error: 'Excel file must contain sheet: CPI, Population, or Agriculture',
+      });
     }
 
     res.json({ message: '✅ Data imported successfully!' });
@@ -82,49 +74,49 @@ app.post('/api/upload', upload.single('excelFile'), (req, res) => {
   }
 });
 
-// ✅ Manual CPI form POST
+// Manual CPI form POST
 app.post('/api/cpi', (req, res) => {
   const { state, lga, month, year, value, description } = req.body;
   if (!state || !lga || !month || !year || !value) {
-    return res.status(400).json({ error: 'All required fields must be filled.' });
+    return res.status(400).json({ error: 'Missing required CPI fields' });
   }
 
   const filePath = path.join(__dirname, 'data', 'cpi.json');
   const data = getData('cpi.json');
   data.push({ state, lga, month, year, value, description });
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  res.status(201).json({ message: '✅ CPI data added successfully' });
+  res.status(201).json({ message: '✅ CPI data added' });
 });
 
-// ✅ Manual Population form POST
+// Manual Population form POST
 app.post('/api/population', (req, res) => {
   const { state, lga, year, ageGroup, gender, population } = req.body;
   if (!state || !lga || !year || !ageGroup || !gender || !population) {
-    return res.status(400).json({ error: 'All required fields must be filled.' });
+    return res.status(400).json({ error: 'Missing population fields' });
   }
 
   const filePath = path.join(__dirname, 'data', 'population.json');
   const data = getData('population.json');
   data.push({ state, lga, year, ageGroup, gender, population });
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  res.status(201).json({ message: '✅ Population data added successfully' });
+  res.status(201).json({ message: '✅ Population data added' });
 });
 
-// ✅ Manual Agriculture form POST
+// Manual Agriculture form POST
 app.post('/api/agriculture', (req, res) => {
   const { state, lga, year, crop, value } = req.body;
   if (!state || !lga || !year || !crop || !value) {
-    return res.status(400).json({ error: 'All required fields must be filled.' });
+    return res.status(400).json({ error: 'Missing agriculture fields' });
   }
 
   const filePath = path.join(__dirname, 'data', 'agriculture.json');
   const data = getData('agriculture.json');
   data.push({ state, lga, year, crop, value });
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  res.status(201).json({ message: '✅ Agriculture data added successfully' });
+  res.status(201).json({ message: '✅ Agriculture data added' });
 });
 
-// ✅ Start Server
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });

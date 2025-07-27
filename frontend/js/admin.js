@@ -1,7 +1,8 @@
-// 🟦 CPI FORM SUBMIT
+const BASE_URL = 'https://nasarawa-api.onrender.com'; // ✅ Your deployed API base
+
+// CPI Submit
 document.getElementById('cpiForm')?.addEventListener('submit', async function (e) {
   e.preventDefault();
-
   const data = {
     state: this.state.value,
     lga: this.lga.value,
@@ -12,25 +13,23 @@ document.getElementById('cpiForm')?.addEventListener('submit', async function (e
   };
 
   try {
-    const res = await fetch('http://localhost:5000/api/cpi', {
+    const res = await fetch(`${BASE_URL}/api/cpi`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-
     const result = await res.json();
-    alert(result.message || 'CPI submitted!');
+    alert(result.message || '✅ CPI submitted');
     this.reset();
   } catch (err) {
-    alert('Error submitting CPI');
+    alert('❌ Error submitting CPI');
     console.error(err);
   }
 });
 
-// 🟩 POPULATION FORM SUBMIT
+// Population Submit
 document.getElementById('populationForm')?.addEventListener('submit', async function (e) {
   e.preventDefault();
-
   const data = {
     state: this.state.value,
     lga: this.lga.value,
@@ -41,25 +40,23 @@ document.getElementById('populationForm')?.addEventListener('submit', async func
   };
 
   try {
-    const res = await fetch('http://localhost:5000/api/population', {
+    const res = await fetch(`${BASE_URL}/api/population`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-
     const result = await res.json();
-    alert(result.message || 'Population submitted!');
+    alert(result.message || '✅ Population submitted');
     this.reset();
   } catch (err) {
-    alert('Error submitting population data');
+    alert('❌ Error submitting population');
     console.error(err);
   }
 });
 
-// 🟨 AGRICULTURE FORM SUBMIT
+// Agriculture Submit
 document.getElementById('agricultureForm')?.addEventListener('submit', async function (e) {
   e.preventDefault();
-
   const data = {
     state: this.state.value,
     lga: this.lga.value,
@@ -69,46 +66,37 @@ document.getElementById('agricultureForm')?.addEventListener('submit', async fun
   };
 
   try {
-    const res = await fetch('http://localhost:5000/api/agriculture', {
+    const res = await fetch(`${BASE_URL}/api/agriculture`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-
     const result = await res.json();
-    alert(result.message || 'Agriculture data submitted!');
+    alert(result.message || '✅ Agriculture submitted');
     this.reset();
   } catch (err) {
-    alert('Error submitting agriculture data');
+    alert('❌ Error submitting agriculture');
     console.error(err);
   }
 });
-function logout() {
-  // Clear any saved login state (if using localStorage/sessionStorage)
-  localStorage.removeItem('adminLoggedIn');
 
-  // Redirect to login page
-  window.location.href = 'login.html';
-}
-function toggleForm(sectionId) {
-  const sections = document.querySelectorAll('.form-section');
-  sections.forEach(section => {
-    section.style.display = section.id === sectionId ? 'block' : 'none';
-  });
-}
-document.getElementById('excelForm').addEventListener('submit', async function (e) {
+// Excel Upload
+document.getElementById('excelForm')?.addEventListener('submit', async function (e) {
   e.preventDefault();
-
-  const formData = new FormData();
   const fileInput = document.querySelector('input[name="excelFile"]');
+  const formData = new FormData();
+  if (!fileInput.files.length) {
+    document.getElementById('uploadStatus').textContent = '❌ Select a file.';
+    return;
+  }
+
   formData.append('excelFile', fileInput.files[0]);
 
   try {
-    const res = await fetch('http://localhost:5000/api/upload', {
+    const res = await fetch(`${BASE_URL}/api/upload`, {
       method: 'POST',
       body: formData
     });
-
     const result = await res.json();
     document.getElementById('uploadStatus').textContent = result.message || result.error;
   } catch (err) {
@@ -116,3 +104,16 @@ document.getElementById('excelForm').addEventListener('submit', async function (
     console.error(err);
   }
 });
+
+// Logout
+function logout() {
+  localStorage.removeItem('adminLoggedIn');
+  window.location.href = 'login.html';
+}
+
+// Toggle forms
+function toggleForm(sectionId) {
+  document.querySelectorAll('.form-section').forEach(section => {
+    section.style.display = section.id === sectionId ? 'block' : 'none';
+  });
+}

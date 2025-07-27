@@ -1,18 +1,3 @@
 [
-  {
-    "state": "Nasarawa",
-    "lga": "Karu",
-    "year": 2025,
-    "ageGroup": "0–14",
-    "gender": "Male",
-    "population": 52000
-  },
-  {
-    "state": "Nasarawa",
-    "lga": "Karu",
-    "year": 2025,
-    "ageGroup": "0–14",
-    "gender": "Female",
-    "population": 51000
-  }
+  
 ]
