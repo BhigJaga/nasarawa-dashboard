@@ -8,7 +8,7 @@ const xlsx = require('xlsx');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Enable CORS with proper options
+// ✅ CORS Configuration
 const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
@@ -28,13 +28,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight
+app.options('*', cors(corsOptions)); // Preflight
 app.use(express.json());
 
-// ✅ Serve static frontend files (optional)
-app.use(express.static(path.join(__dirname, '../frontend')));
+// ✅ Serve static files
+app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 
-// ✅ Utility to read data
+// ✅ Helper: Read JSON data
 const getData = (filename) => {
   const filePath = path.join(__dirname, 'data', filename);
   return fs.existsSync(filePath)
@@ -42,22 +42,20 @@ const getData = (filename) => {
     : [];
 };
 
-// ✅ File upload setup
+// ✅ Multer file upload
 const upload = multer({ dest: 'uploads/' });
 
-// ✅ ROUTES
-
-// Default route
+// ✅ Default route
 app.get('/', (req, res) => {
   res.send('🚀 API is running');
 });
 
-// GET Endpoints
+// ✅ GET endpoints
 app.get('/api/cpi', (req, res) => res.json(getData('cpi.json')));
 app.get('/api/population', (req, res) => res.json(getData('population.json')));
 app.get('/api/agriculture', (req, res) => res.json(getData('agriculture.json')));
 
-// Excel Upload
+// ✅ Upload Excel
 app.post('/api/upload', upload.single('excelFile'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
@@ -65,7 +63,6 @@ app.post('/api/upload', upload.single('excelFile'), (req, res) => {
     const workbook = xlsx.readFile(req.file.path);
     const sheetNames = workbook.SheetNames;
     const validSheets = ['CPI', 'Population', 'Agriculture'];
-
     let foundSheet = false;
 
     validSheets.forEach(sheet => {
@@ -93,58 +90,53 @@ app.post('/api/upload', upload.single('excelFile'), (req, res) => {
   }
 });
 
-// Manual CPI form POST
+// ✅ Manual CPI entry
 app.post('/api/cpi', (req, res) => {
   const { state, lga, month, year, value, description } = req.body;
   if (!state || !lga || !month || !year || !value) {
     return res.status(400).json({ error: 'Missing required CPI fields' });
   }
 
-  const filePath = path.join(__dirname, 'data', 'cpi.json');
   const data = getData('cpi.json');
   data.push({ state, lga, month, year, value, description });
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(path.join(__dirname, 'data', 'cpi.json'), JSON.stringify(data, null, 2));
   res.status(201).json({ message: '✅ CPI data added' });
 });
 
-// Manual Population form POST
+// ✅ Manual Population entry
 app.post('/api/population', (req, res) => {
   const { state, lga, year, ageGroup, gender, population } = req.body;
   if (!state || !lga || !year || !ageGroup || !gender || !population) {
     return res.status(400).json({ error: 'Missing population fields' });
   }
 
-  const filePath = path.join(__dirname, 'data', 'population.json');
   const data = getData('population.json');
   data.push({ state, lga, year, ageGroup, gender, population });
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(path.join(__dirname, 'data', 'population.json'), JSON.stringify(data, null, 2));
   res.status(201).json({ message: '✅ Population data added' });
 });
 
-// Manual Agriculture form POST
+// ✅ Manual Agriculture entry
 app.post('/api/agriculture', (req, res) => {
   const { state, lga, year, crop, value } = req.body;
   if (!state || !lga || !year || !crop || !value) {
     return res.status(400).json({ error: 'Missing agriculture fields' });
   }
 
-  const filePath = path.join(__dirname, 'data', 'agriculture.json');
   const data = getData('agriculture.json');
   data.push({ state, lga, year, crop, value });
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  fs.writeFileSync(path.join(__dirname, 'data', 'agriculture.json'), JSON.stringify(data, null, 2));
   res.status(201).json({ message: '✅ Agriculture data added' });
 });
 
-// ✅ Clear All Data
+// ✅ Clear all data
 app.delete('/api/clear-data', (req, res) => {
-  const filesToClear = ['cpi.json', 'population.json', 'agriculture.json'];
+  const files = ['cpi.json', 'population.json', 'agriculture.json'];
 
   try {
-    filesToClear.forEach(filename => {
-      const filePath = path.join(__dirname, 'data', filename);
-      fs.writeFileSync(filePath, '[]');
+    files.forEach(file => {
+      fs.writeFileSync(path.join(__dirname, 'data', file), '[]');
     });
-
     res.json({ message: '✅ All data cleared!' });
   } catch (err) {
     console.error('Error clearing data:', err);
