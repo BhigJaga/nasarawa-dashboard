@@ -1,4 +1,4 @@
-const BASE_URL = 'https://nasarawa-api.onrender.com'; // ✅ Your deployed API base
+const BASE_URL = 'https://nasarawa-api.onrender.com';
 
 // CPI Submit
 document.getElementById('cpiForm')?.addEventListener('submit', async function (e) {
@@ -117,3 +117,18 @@ function toggleForm(sectionId) {
     section.style.display = section.id === sectionId ? 'block' : 'none';
   });
 }
+document.getElementById('clearDataBtn')?.addEventListener('click', async () => {
+  if (!confirm('Are you sure you want to clear all data? This cannot be undone!')) return;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/clear-data`, {
+      method: 'DELETE',
+    });
+
+    const result = await res.json();
+    alert(result.message || '✅ Data cleared!');
+  } catch (err) {
+    console.error('Failed to clear data:', err);
+    alert('❌ Failed to clear data');
+  }
+});
