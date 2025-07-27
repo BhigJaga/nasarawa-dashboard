@@ -29,8 +29,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight
-
-app.use(cors(corsOptions));
 app.use(express.json());
 
 // ✅ Serve static frontend files (optional)
