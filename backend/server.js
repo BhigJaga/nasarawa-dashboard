@@ -8,7 +8,7 @@ const xlsx = require('xlsx');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// ✅ Enable CORS for all origins
+// ✅ Enable CORS with proper options
 const corsOptions = {
   origin: 'https://nasarawa-dashboard.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -16,7 +16,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 
 // ✅ Serve static frontend files (optional)
@@ -122,13 +121,15 @@ app.post('/api/agriculture', (req, res) => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
   res.status(201).json({ message: '✅ Agriculture data added' });
 });
+
+// ✅ Clear All Data
 app.delete('/api/clear-data', (req, res) => {
   const filesToClear = ['cpi.json', 'population.json', 'agriculture.json'];
 
   try {
     filesToClear.forEach(filename => {
       const filePath = path.join(__dirname, 'data', filename);
-      fs.writeFileSync(filePath, '[]'); // Overwrite with empty array
+      fs.writeFileSync(filePath, '[]');
     });
 
     res.json({ message: '✅ All data cleared!' });
@@ -142,4 +143,3 @@ app.delete('/api/clear-data', (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
-
