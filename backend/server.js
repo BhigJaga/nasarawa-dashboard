@@ -10,10 +10,25 @@ const PORT = process.env.PORT || 5000;
 
 // ✅ Enable CORS with proper options
 const corsOptions = {
-  origin: 'https://nasarawa-dashboard.onrender.com',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://nasarawa-dashboard.onrender.com',
+      'http://localhost:5500'
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
+  credentials: true,
+  optionsSuccessStatus: 204
 };
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight
 
 app.use(cors(corsOptions));
 app.use(express.json());
