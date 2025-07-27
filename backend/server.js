@@ -9,11 +9,13 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // ✅ Enable CORS for all origins
+const corsOptions = {
+  origin: 'https://nasarawa-dashboard.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type'],
+};
 
-app.use(cors({
-  origin: 'https://nasarawa-dashboard.onrender.com', // or specify origin like 'http://127.0.0.1:5500'
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // 👈 allow DELETE
-}));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
